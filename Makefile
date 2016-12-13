@@ -1,7 +1,8 @@
 #---------------------------------------------------------------------------------
 .SUFFIXES:
 #---------------------------------------------------------------------------------
-
+export DEVKITARM=C:\devkitPro\devkitARM
+export DEVKITPRO=C:\devkitPro
 ifeq ($(strip $(DEVKITARM)),)
 $(error "Please set DEVKITARM in your environment. export DEVKITARM=<path to>devkitARM")
 endif
