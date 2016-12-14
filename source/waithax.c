@@ -83,8 +83,11 @@ static void waithax_setRefCount(Handle handle, u32 value)
 
 	s32 out;
 	Handle handles[0x100];
-	for(u32 i = 0; i < 0x100; i++)
+	Handle handles2[0x100];
+	for(u32 i = 0; i < 0x100; i++){
 		handles[i] = handle;
+		handles2[i] = handle;
+	}
 	handles[0xFF] = 0xDEADDEAD;
 
 	u32 bulkLoop = loop / 0xFF;
@@ -101,11 +104,16 @@ static void waithax_setRefCount(Handle handle, u32 value)
 	}
 
 	handles[1] = 0xDEADDEAD;
+	handles2[2] = 0xDEADDEAD;
 	for(u32 i = 0; i < individualLoop; i++)
 	{
-		res = svcWaitSynchronizationN(&out, handles, 2, true, 0);
-		refCount++;
-
+		if(refCount + 1 == 0){
+			res = svcWaitSynchronizationN(&out, handles2, 3, true, 0);
+			refCount+=2;
+		}else{
+			res = svcWaitSynchronizationN(&out, handles, 2, true, 0);
+			refCount++;
+		}
 		printf("Left: %08lx | i: %08lx | count: %08lx\n", individualLoop - i, i,
 			refCount);
 	}

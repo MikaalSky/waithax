@@ -8,3 +8,6 @@
 *.layout
 Thumbs.db
 build/
+.cproject
+*.project
+.settings/language.settings.xml
